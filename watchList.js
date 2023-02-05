@@ -19,7 +19,7 @@ const dataMovie = JSON.parse(localStorageMovieData)
             <span id="genre">${data.Genre}</span>
        
                 <div id="watchList">
-                    <button class="remove-btn" id="plus-icon">
+                    <button class="plus-icon">
                         <i class="fa-solid fa-minus"></i>
                     </button>
                     Watchlist
@@ -35,14 +35,18 @@ const dataMovie = JSON.parse(localStorageMovieData)
   
 // click to get the index of that element
 
-document.querySelectorAll("#plus-icon").forEach((list, index) => {
+document.querySelectorAll(".plus-icon").forEach((list, index) => {
     list.addEventListener("click", () => {
         dataMovie.splice(index, 1)
         
         localStorage.setItem("movieData", JSON.stringify(dataMovie))
-       
+
+        // Reload page 
+        location.reload()
     })
 })
+
+
 
 
 

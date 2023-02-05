@@ -108,7 +108,7 @@ body #movie-container #movie #time-genre-watchList #watchList {
   align-items: center;
   color: black;
 }
-body #movie-container #movie #time-genre-watchList #watchList #plus-icon {
+body #movie-container #movie #time-genre-watchList #watchList .plus-icon {
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -120,7 +120,7 @@ body #movie-container #movie #time-genre-watchList #watchList #plus-icon {
   justify-content: center;
   margin-right: 4px;
 }
-body #movie-container #movie #time-genre-watchList #watchList #plus-icon i {
+body #movie-container #movie #time-genre-watchList #watchList .plus-icon i {
   color: white;
   font-size: 14px;
 }
