@@ -3,7 +3,6 @@ const form = document.getElementById("form")
 const searchBtn = document.getElementById("searchBtn")
 const inputSearch = document.getElementById("search")
 const movie = document.getElementById("movie")
-
 const apiKey = "d0c08a75"
 
 // Fetch Function
@@ -21,6 +20,7 @@ const fetchFunc = () => {
     })
 }
 
+
 // Form Submit
 
 searchBtn.addEventListener("click", (e) => {
@@ -33,60 +33,55 @@ searchBtn.addEventListener("click", (e) => {
 // Display Data 
 
 const displayData = (data) => {
+   
+            let movieHtml = `
+            <img id = "movie-img" src=${data.Poster} alt="blade-runner">
 
-    console.log(data)
+            <div id="desc-container">
+                <div id="title">
+                    <h2>${data.Title}</h2>
+                    <span id="rating">
+                        <i class="fa-solid fa-star"></i> ${data.imdbRating}</span>
+                </div>
+                
+                <div id="time-genre-watchList">
+                    <span id="run-time">${data.Runtime}</span>
+                    <span id="genre">${data.Genre}</span>
+                    <div id="watchList">
+                        <button class="plus-icon">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                        Watchlist
+                    </div>
+                </div>
+            </div>  
+            <p>${data.Plot}</p>
+            <hr />
+            `
 
-    
-    let movieHtml = `
-    <img id = "movie-img" src=${data.Poster} alt="blade-runner">
-
-    <div id="desc-container">
-        <div id="title">
-            <h2>${data.Title}</h2>
-            <span id="rating">
-                <i class="fa-solid fa-star"></i> ${data.imdbRating}</span>
-        </div>
-        
-        <div id="time-genre-watchList">
-            <span id="run-time">${data.Runtime}</span>
-            <span id="genre">${data.Genre}</span>
-            <div id="watchList">
-                <button id="plus-icon">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
-                Watchlist
-            </div>
-        </div>
-    </div>  
-    <p>${data.Plot}</p>
-    <hr />
-    ${movie.innerHTML}
-    `
-
-    movie.innerHTML = movieHtml
+            movie.innerHTML = movieHtml
 }
 
 
 
 // Save LocalStorage function 
 
-// const localStorageMovieData = localStorage.getItem("movieData")
-// let movieData;
+const localStorageMovieData = localStorage.getItem("movieData")
+let movieData;
 
-// if (localStorageMovieData === null) {
-//     movieData = []
-// }else {
-//     movieData = JSON.parse(localStorageMovieData)
-// }
-
-const addWatchList = (data) => {
-        document.getElementById("plus-icon").addEventListener("click", () => {
-            console.log("clicked")
-            // movieData.push(data)
-            localStorage.setItem(data.Title, JSON.stringify(data))
-        }) 
+if (localStorageMovieData === null) {
+    movieData = []
+}else {
+    movieData = JSON.parse(localStorageMovieData)
 }
 
-//console.log(JSON.parse(localStorageMovieData))
+const addWatchList = (data) => {
+    document.querySelector(".plus-icon").addEventListener("click", () => {   
+            movieData.push(data)
+            console.log(movieData)
+            localStorage.setItem("movieData", JSON.stringify(movieData))
+    })
+}
+        
 
 // End of Save LocalStorage
