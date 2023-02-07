@@ -7,25 +7,35 @@ const apiKey = "d0c08a75"
 
 // Fetch Function
 
-const fetchFunc = () => {
+const fetchManyData = () => {
     let data = {
         inputSearch : inputSearch.value
     }
 
-    fetch(`https://www.omdbapi.com/?apikey=${apiKey}&t=${data.inputSearch}`)
+    fetch(`https://www.omdbapi.com/?apikey=d0c08a75&s=${data.inputSearch}`)
     .then(res => res.json())
     .then(data => {
-        displayData(data)
-        addWatchList(data)
+        const movieDataArr = data.Search
+        movieDataArr.map(data => {
+            let dataID = data.imdbID
+            fetch(`https://www.omdbapi.com/?apikey=d0c08a75&i=${dataID}`)
+            .then(res => res.json())
+            .then(data => {
+                displayData(data)
+                addWatchList(data)
+            })
+        })
     })
+    .catch(err => console.log(err))
+
 }
 
 
-// Form Submit
+// Btn Click
 
 searchBtn.addEventListener("click", (e) => {
     e.preventDefault()
-    fetchFunc()
+    fetchManyData()
     inputSearch.value = ""
 })
 
@@ -33,20 +43,22 @@ searchBtn.addEventListener("click", (e) => {
 // Display Data 
 
 const displayData = (data) => {
+
+    let {Poster, Title, imdbRating, Runtime, Genre, Plot} = data
    
             let movieHtml = `
-            <img id = "movie-img" src=${data.Poster} alt="blade-runner">
+            <img id = "movie-img" src=${Poster} alt="blade-runner">
 
             <div id="desc-container">
                 <div id="title">
-                    <h2>${data.Title}</h2>
+                    <h2>${Title}</h2>
                     <span id="rating">
-                        <i class="fa-solid fa-star"></i> ${data.imdbRating}</span>
+                        <i class="fa-solid fa-star"></i> ${imdbRating}</span>
                 </div>
                 
                 <div id="time-genre-watchList">
-                    <span id="run-time">${data.Runtime}</span>
-                    <span id="genre">${data.Genre}</span>
+                    <span id="run-time">${Runtime}</span>
+                    <span id="genre">${Genre}</span>
                     <div id="watchList">
                         <button class="plus-icon">
                             <i class="fa-solid fa-plus"></i>
@@ -55,8 +67,9 @@ const displayData = (data) => {
                     </div>
                 </div>
             </div>  
-            <p>${data.Plot}</p>
+            <p>${Plot}</p>
             <hr />
+            ${movie.innerHTML}
             `
 
             movie.innerHTML = movieHtml
@@ -64,7 +77,7 @@ const displayData = (data) => {
 
 
 
-// Save LocalStorage function 
+// // Save LocalStorage function 
 
 const localStorageMovieData = localStorage.getItem("movieData")
 let movieData;
@@ -76,11 +89,18 @@ if (localStorageMovieData === null) {
 }
 
 const addWatchList = (data) => {
-    document.querySelector(".plus-icon").addEventListener("click", () => {   
+    console.log(data)
+    document.querySelectorAll(".plus-icon").forEach(btn => {
+        
+        btn.addEventListener("click", () => {   
+            console.log("click")
             movieData.push(data)
             console.log(movieData)
             localStorage.setItem("movieData", JSON.stringify(movieData))
     })
+    })
+    
+    
 }
         
 
