@@ -2,8 +2,23 @@ const movie = document.getElementById("movie")
 const localStorageMovieData = localStorage.getItem("movieData")
 const dataMovie = JSON.parse(localStorageMovieData)
 
+// Remove Dublicate Movie 
 
-    dataMovie.map((data, index) => {
+let newArrDataMovie = []
+let newObjDataMovie = {}
+
+for (let data in dataMovie) {
+     objTitle = dataMovie[data]["Title"]
+    newObjDataMovie[objTitle] = dataMovie[data]
+}
+console.log(newObjDataMovie)
+for (i in newObjDataMovie) {
+    newArrDataMovie.push(newObjDataMovie[i])
+}
+
+// End of Remove Duplicate Movie
+
+    newArrDataMovie.map((data) => {
         let movieHtml = `
         <img id = "movie-img" src=${data.Poster} alt="blade-runner">
 
@@ -33,13 +48,13 @@ const dataMovie = JSON.parse(localStorageMovieData)
     })
     
   
-// click to get the index of that element
+// Remove Movie
 
 document.querySelectorAll(".plus-icon").forEach((list, index) => {
     list.addEventListener("click", () => {
-        dataMovie.splice(index, 1)
+        newArrDataMovie.splice(index, 1)
         
-        localStorage.setItem("movieData", JSON.stringify(dataMovie))
+        localStorage.setItem("movieData", JSON.stringify(newArrDataMovie))
 
         // Reload page 
         location.reload()

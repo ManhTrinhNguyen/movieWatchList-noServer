@@ -22,7 +22,6 @@ const fetchManyData = () => {
             .then(res => res.json())
             .then(data => {
                 displayData(data)
-                addWatchList(data)
             })
         })
     })
@@ -60,14 +59,15 @@ const displayData = (data) => {
                     <span id="run-time">${Runtime}</span>
                     <span id="genre">${Genre}</span>
                     <div id="watchList">
-                        <button class="plus-icon">
+                        <button class="plus-icon" onclick="addToWatchList(${JSON.stringify(data).split('"').join("&quot;")})">
                             <i class="fa-solid fa-plus"></i>
                         </button>
                         Watchlist
                     </div>
                 </div>
+                <p>${Plot}</p>
             </div>  
-            <p>${Plot}</p>
+            
             <hr />
             ${movie.innerHTML}
             `
@@ -88,20 +88,13 @@ if (localStorageMovieData === null) {
     movieData = JSON.parse(localStorageMovieData)
 }
 
-const addWatchList = (data) => {
-    console.log(data)
-    document.querySelectorAll(".plus-icon").forEach(btn => {
-        
-        btn.addEventListener("click", () => {   
-            console.log("click")
-            movieData.push(data)
-            console.log(movieData)
-            localStorage.setItem("movieData", JSON.stringify(movieData))
-    })
-    })
-    
-    
+const addToWatchList = (data) => {
+    console.log("click")
+        movieData.push(data)
+        localStorage.setItem("movieData", JSON.stringify(movieData)) 
 }
+
+
         
 
 // End of Save LocalStorage
